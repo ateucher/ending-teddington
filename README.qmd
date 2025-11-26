@@ -47,7 +47,7 @@ write_csv(all_filtered, "comedian_footballer_pairs_0001_percent.csv")
 ```
 
 The [endteddingtonnow.com website](https://endteddingtonnow.com) rounds the combined probabilities to four decimal places, so we lose a bit of precision. 
-If we filter the data to only include pairs with a rounded combined probability of 0.0001%, we find there are still `{r} format(nrow(all_filtered), big.mark = ",")` such pairs, which is not very useful.
+If we filter the data to only include pairs with a _rounded combined probability_ of 0.0001%, we find there are still `{r} format(nrow(all_filtered), big.mark = ",")` such pairs, which is not very useful.
 
 ```{r}
 jordans <- all_filtered |>
@@ -63,6 +63,12 @@ This gives us a much more reasonable list of `{r} nrow(jordans)` comedians. With
 #| echo: false
 #| include: true
 jordans |>
+  select(-ends_with("_footballer"), -rounded_probability) |>
+  mutate(combined_probability = combined_probability * 100) |>
   arrange(desc(probability_comedian)) |>
-  knitr::kable()
+  knitr::kable(
+    col.names = c("Comedian", "Comedian Probability", "Combined Probability"),
+    digits = c(0, 6, 8),
+    format.args = list(scientific = FALSE)
+  )
 ```
