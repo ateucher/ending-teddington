@@ -1,0 +1,68 @@
+---
+title: "Helping End Teddington"
+format: markdown_github
+include: false
+---
+
+This is a simple attempt to help narrow down the possible comedian-footballer pairs that Max could have chosen for his cursed Teddington Comedian/Footballer Quiz on [What Did You Do Yesterday](https://podcasts.apple.com/us/podcast/what-did-you-do-yesterday-with-max-rushden-david-odoherty/id1765600990).
+Fellow listener @lindsayevanslee created an amazing [website](https://endteddingtonnow.com) for calculating the probability of seeing different comedian-footballer combinations. 
+
+In the Midweek Mayhem from November 25 2025, Max and David were using the website and Max gave us a *huge* clue when he revealed that the combined probability of his comedian and footballer was *0.0001%*.
+Since @lindsayevanslee has kindly made the [data and code available on GitHub](https://github.com/lindsayevanslee/end-teddington-now), we can use it to try and narrow down the possible pairs that Max could have chosen.
+
+```{r}
+library(tidyverse)
+
+comedians <- read_csv(
+  "https://raw.githubusercontent.com/lindsayevanslee/end-teddington-now/refs/heads/main/data/comedians_probability.csv"
+) |>
+  set_names(tolower)
+footballers <- read_csv(
+  "https://raw.githubusercontent.com/lindsayevanslee/end-teddington-now/refs/heads/main/data/footballers_probability.csv"
+) |>
+  set_names(tolower)
+
+all <- cross_join(
+  comedians,
+  footballers,
+  suffix = c("_comedian", "_footballer")
+) |>
+  mutate(
+    combined_probability = probability_comedian * probability_footballer,
+    rounded_probability = round(combined_probability * 100, 4)
+  )
+```
+
+There are `{r} format(nrow(comedians), big.mark = ",")` comedians and `{r} format(nrow(footballers), big.mark = ",")` footballers in the data compiled by 
+@lindsayevanslee. 
+This means there are `{r} format(nrow(all), big.mark = ",")` possible comedian-footballer pairs. Max said on the show that the combined probability of his footballer and his comedian was 0.0001%. 
+
+```{r}
+all_filtered <- all |>
+  filter(
+    rounded_probability == 0.0001
+  )
+
+write_csv(all_filtered, "comedian_footballer_pairs_0001_percent.csv")
+```
+
+The [endteddingtonnow.com website](https://endteddingtonnow.com) rounds the combined probabilities to four decimal places, so we lose a bit of precision. 
+If we filter the data to only include pairs with a rounded combined probability of 0.0001%, we find there are still `{r} format(nrow(all_filtered), big.mark = ",")` such pairs, which is not very useful.
+
+```{r}
+jordans <- all_filtered |>
+  filter(name_footballer == "Jordan Henderson")
+```
+
+However, if we follow on DoD's and Mars Bar's suggestion to lock in Jordan Henderson as the footballer, we can see which comedians pair with him to give a combined probability of 0.0001%.
+This gives us a much more reasonable list of `{r} nrow(jordans)` comedians. With one guess a week, we could get through this list in just over `{r} floor(nrow(jordans) / 52)` years!
+
+### List of comedians paired with Jordan Henderson that give a combined probability of 0.0001%
+
+```{r}
+#| echo: false
+#| include: true
+jordans |>
+  arrange(desc(probability_comedian)) |>
+  knitr::kable()
+```
