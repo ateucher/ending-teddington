@@ -5,22 +5,25 @@ This is a simple attempt to help narrow down the possible
 comedian-footballer pairs that Max could have chosen for his cursed
 Teddington Comedian/Footballer Quiz on [What Did You Do
 Yesterday](https://podcasts.apple.com/us/podcast/what-did-you-do-yesterday-with-max-rushden-david-odoherty/id1765600990).
-Fellow listener @lindsayevanslee created an amazing
-[website](https://endteddingtonnow.com) for calculating the probability
-of seeing different comedian-footballer combinations.
+Fellow listener [@lindsayevanslee](https://github.com/lindsayevanslee)
+created an amazing [website](https://endteddingtonnow.com) for
+calculating the probability of seeing different comedian-footballer
+combinations.
 
 In the Midweek Mayhem from November 25 2025, Max and David were using
 the website and Max gave us a *huge* clue when he revealed that the
 combined probability of his comedian and footballer was *0.0001%*. Since
-@lindsayevanslee has kindly made the [data and code available on
+[@lindsayevanslee](https://github.com/lindsayevanslee) has kindly made
+the [data and code available on
 GitHub](https://github.com/lindsayevanslee/end-teddington-now), we can
 use it to try and narrow down the possible pairs that Max could have
 chosen.
 
 There are 491 comedians and 1,048 footballers in the data compiled by
-@lindsayevanslee. This means there are 514,568 possible
-comedian-footballer pairs. Max said on the show that the combined
-probability of his footballer and his comedian was 0.0001%.
+[@lindsayevanslee](https://github.com/lindsayevanslee). This means there
+are 514,568 possible comedian-footballer pairs. Max said on the show
+that the combined probability of his footballer and his comedian was
+0.0001%.
 
 The [endteddingtonnow.com website](https://endteddingtonnow.com) rounds
 the combined probabilities to four decimal places, so we lose a bit of

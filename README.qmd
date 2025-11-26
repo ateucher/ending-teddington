@@ -5,10 +5,10 @@ include: false
 ---
 
 This is a simple attempt to help narrow down the possible comedian-footballer pairs that Max could have chosen for his cursed Teddington Comedian/Footballer Quiz on [What Did You Do Yesterday](https://podcasts.apple.com/us/podcast/what-did-you-do-yesterday-with-max-rushden-david-odoherty/id1765600990).
-Fellow listener @lindsayevanslee created an amazing [website](https://endteddingtonnow.com) for calculating the probability of seeing different comedian-footballer combinations. 
+Fellow listener [@lindsayevanslee](https://github.com/lindsayevanslee) created an amazing [website](https://endteddingtonnow.com) for calculating the probability of seeing different comedian-footballer combinations. 
 
 In the Midweek Mayhem from November 25 2025, Max and David were using the website and Max gave us a *huge* clue when he revealed that the combined probability of his comedian and footballer was *0.0001%*.
-Since @lindsayevanslee has kindly made the [data and code available on GitHub](https://github.com/lindsayevanslee/end-teddington-now), we can use it to try and narrow down the possible pairs that Max could have chosen.
+Since [@lindsayevanslee](https://github.com/lindsayevanslee) has kindly made the [data and code available on GitHub](https://github.com/lindsayevanslee/end-teddington-now), we can use it to try and narrow down the possible pairs that Max could have chosen.
 
 ```{r}
 library(tidyverse)
@@ -34,7 +34,7 @@ all <- cross_join(
 ```
 
 There are `{r} format(nrow(comedians), big.mark = ",")` comedians and `{r} format(nrow(footballers), big.mark = ",")` footballers in the data compiled by 
-@lindsayevanslee. 
+[@lindsayevanslee](https://github.com/lindsayevanslee). 
 This means there are `{r} format(nrow(all), big.mark = ",")` possible comedian-footballer pairs. Max said on the show that the combined probability of his footballer and his comedian was 0.0001%. 
 
 ```{r}
@@ -64,11 +64,18 @@ This gives us a much more reasonable list of `{r} nrow(jordans)` comedians. With
 #| include: true
 jordans |>
   select(-ends_with("_footballer"), -rounded_probability) |>
-  mutate(combined_probability = combined_probability * 100) |>
+  mutate(
+    probability_comedian = probability_comedian * 100,
+    combined_probability = combined_probability * 100
+  ) |>
   arrange(desc(probability_comedian)) |>
   knitr::kable(
-    col.names = c("Comedian", "Comedian Probability", "Combined Probability"),
-    digits = c(0, 6, 8),
+    col.names = c(
+      "Comedian",
+      "Comedian Probability",
+      "Combined Probability with Jordan Henderson"
+    ),
+    digits = c(0, 4, 6),
     format.args = list(scientific = FALSE)
   )
 ```
